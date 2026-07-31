@@ -29,11 +29,11 @@ Guidance here is community consensus. Project-specific rules (exact package name
 - Never import `lib/src/` of a dependency directly; use its public API only.
 
 ## Architecture (plugin)
-- Define the abstract API in `lib/<pkg>_platform_interface.dart` (`<Pkg>Platform`).
-- Provide the default `MethodChannel` implementation in `lib/<pkg>_method_channel.dart`.
-- Register the default in the public barrel; re-export public symbols only.
-- Native side: Android under `android/src/main/kotlin/...`, iOS under `ios/Classes/`. Keep native changes minimal and matching the method-channel contract.
-- See `references/platform_channel.md` for a template.
+- Define the abstract API once in `lib/<pkg>_platform_interface.dart` (`<Pkg>Platform`).
+- Provide a concrete impl per target platform: `MethodChannel` for Android / iOS / macOS / Linux / Windows / OpenHarmony (鸿蒙), and pure-Dart `dart:js_interop` for Web (no MethodChannel).
+- Register the right impl conditionally (use `kIsWeb` + `dart:io` `Platform.isX`) in the public barrel; re-export public symbols only. Consumers call the abstract API and never change when a platform is added.
+- Keep native changes minimal and matching the method-channel contract. Android lives under `android/src/main/kotlin/...`, iOS/macOS under `ios/Classes` / `macos/Classes`, Linux/Windows under `linux/` / `windows/` (C++), OHOS under `ohos/` (ArkTS).
+- See `references/platform_channel.md` for a full multi-platform template.
 
 ## Verification commands (run locally before pushing)
 - `flutter analyze` — must pass with no errors.
@@ -41,10 +41,16 @@ Guidance here is community consensus. Project-specific rules (exact package name
 - `flutter pub publish --dry-run` — confirm `pana` score and no excluded files.
 
 ## Helper scripts
-Located in `scripts/`, written in Dart (cross-platform). Run with `dart run scripts/<name>.dart`:
-- `verify.dart` — runs analyze + test + publish dry-run.
-- `create_feature.dart <name>` — scaffolds a feature-first folder.
-- `bump_version.dart <major|minor|patch>` — bumps `pubspec.yaml` and prints the git tag command.
+Located in `scripts/dart/` (Dart, cross-platform, runs on the Dart SDK every Flutter
+dev already has) and `scripts/python/` (Python, for environments without the Dart
+SDK). Both implement the same behavior and CLI; pick whichever fits your environment.
+
+Run Dart with `dart run scripts/dart/<name>.dart [args]`, or Python with
+`python scripts/python/<name>.py [args]` (or `python3`).
+
+- `verify` — runs analyze + test + publish dry-run. `[--no-publish]` skips the publish check.
+- `create_feature <name>` — scaffolds a feature-first folder (`lib/features/<name>/{data,domain,presentation}/`).
+- `bump_version <major|minor|patch>` — bumps `pubspec.yaml` and prints the git tag command.
 
 ## License note
 This kit is licensed separately from any project it guides. Respect each project's own license.

@@ -13,6 +13,6 @@ This skill activates for any Flutter / Dart project work. The substantive, tool-
 ## How to use
 1. Read `AGENTS.md` from this kit's root.
 2. Follow its architecture, conventions, and commands for any Flutter/Dart task.
-3. The Dart-based helper scripts under `scripts/` can be run directly in a terminal by any developer.
+3. The helper scripts under `scripts/dart/` (Dart) and `scripts/python/` (Python) can be run directly in a terminal by any developer.
 
 This skill exists only so CodeBuddy auto-loads the project guide through the trigger described in the frontmatter. For non-CodeBuddy tools, the same `AGENTS.md` is consumed directly (see `README.md` for placement per tool).
