@@ -17,6 +17,8 @@ VERSION_RE = re.compile(r"^(version:\s*)(\d+)\.(\d+)\.(\d+)(.*)$")
 
 
 def main(argv):
+    """Bump the semver version in pubspec.yaml. 按 semver 递增 pubspec.yaml 版本。
+    参数：major | minor | patch。"""
     if len(argv) < 1:
         sys.stderr.write("Usage: python scripts/python/bump_version.py <major|minor|patch>\n")
         return 1
@@ -41,7 +43,7 @@ def main(argv):
 
     m = VERSION_RE.match(lines[idx].rstrip("\n"))
     if not m:
-        sys.stderr.write('Could not parse the version string: "{}".\n'.format(lines[idx].strip()))
+        sys.stderr.write(f'Could not parse the version string: "{lines[idx].strip()}".\n')
         return 1
 
     prefix, major, minor, patch, suffix = (
@@ -55,16 +57,16 @@ def main(argv):
     else:
         patch += 1
 
-    new_version = "{}.{}.{}{}".format(major, minor, patch, suffix)
-    lines[idx] = "{}{}\n".format(prefix, new_version)
+    new_version = f"{major}.{minor}.{patch}{suffix}"
+    lines[idx] = f"{prefix}{new_version}\n"
     with open(path, "w", encoding="utf-8") as f:
         f.writelines(lines)
 
-    print("Bumped version to {}".format(new_version))
+    print(f"Bumped version to {new_version}")
     print("Next steps:")
     print("  git add pubspec.yaml")
-    print('  git commit -m "chore: bump version to {}"'.format(new_version))
-    print("  git tag v{} && git push origin v{}".format(new_version, new_version))
+    print(f'  git commit -m "chore: bump version to {new_version}"')
+    print(f"  git tag v{new_version} && git push origin v{new_version}")
     return 0
 
 

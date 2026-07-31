@@ -56,6 +56,55 @@ python install.py          # Python runtime
 
 Re-run the installer any time to update (idempotent).
 
+### Options
+
+| Flag | Meaning | Optional? |
+|------|---------|-----------|
+| `-p, --project <path>` | Target project root for Cursor/Copilot entries. | Optional (defaults to auto-detect nearest Flutter project) |
+| `-t, --tool <tool>` | Wire only one tool: `codebuddy` \| `claude` \| `cursor` \| `copilot`. | Optional (omit = wire all detected tools) |
+| `-h, --help` | Print usage and exit. | Optional |
+
+Works in **cmd**, **PowerShell**, **bash**, **zsh** — just quote paths that
+contain spaces, e.g. `-p "D:\My Project\app"`.
+
+支持 **cmd**、**PowerShell**、**bash**、**zsh** —— 路径含空格时加引号即可，
+如 `-p "D:\My Project\app"`。
+
+### Target a specific project (non-intrusive)
+
+Run the installer from the kit folder and pass a target project root with
+`--project`. Cursor / Copilot entries are written **directly into that project**
+instead of scanning upward from the kit — the kit folder itself is never
+modified.
+
+```bash
+dart run install.dart -p /path/to/my_project
+# or / 或
+python install.py -p /path/to/my_project
+```
+
+> Since you always run the installer from the kit folder, `-p` (short for
+> `--project`) is the simplest way to point at the target project.
+> 由于安装脚本本就在 kit 目录运行，`-p`（`--project` 的简写）是指定目标项目最简洁的方式。
+> Omit it to fall back to auto-detecting the nearest Flutter project by walking
+> up from the kit folder.
+> 省略则回退到从 kit 目录向上查找最近的 Flutter 项目。
+
+### Limit to a single tool
+
+Use `-t <tool>` (short for `--tool`) to wire only one tool. Valid values:
+`codebuddy`, `claude`, `cursor`, `copilot`. Without it, every detected tool is
+wired.
+
+使用 `-t <tool>`（`--tool` 的简写）只接入某一个工具。合法取值：
+`codebuddy`、`claude`、`cursor`、`copilot`。不指定则接入所有已检测到的工具。
+
+```bash
+dart run install.dart -p /path/to/my_project -t cursor
+# or / 或
+python install.py -p /path/to/my_project --tool copilot
+```
+
 ## 🛠 Helper scripts (Dart + Python)
 
 The helpers ship twice — once in Dart under [`scripts/dart/`](./scripts/dart) and once

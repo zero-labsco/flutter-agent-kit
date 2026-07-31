@@ -15,13 +15,18 @@ import sys
 
 
 def run(cmd, args):
-    print("\n> {} {}".format(cmd, " ".join(args)))
-    result = subprocess.run(cmd, args if isinstance(args, list) else list(args),
-                            shell=(sys.platform == "win32"))
+    """Run [cmd] with [args]; return the process exit code.
+    运行 cmd 并传入 args，返回进程退出码。"""
+    print(f"\n> {cmd} {' '.join(args)}")
+    result = subprocess.run(
+        cmd, args if isinstance(args, list) else list(args),
+        shell=(sys.platform == "win32"), check=False,
+    )
     return result.returncode
 
 
 def main(argv):
+    """Run the local pre-push verification suite. 运行本地推送前校验流程。"""
     skip_publish = "--no-publish" in argv
 
     # 1. Static analysis.

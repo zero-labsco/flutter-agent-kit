@@ -51,6 +51,40 @@ python install.py          # Python 运行时
 
 随时可重跑安装脚本来更新（幂等）。
 
+### 选项
+
+| 参数 | 含义 | 是否可选 |
+|------|------|----------|
+| `-p, --project <path>` | Cursor/Copilot 入口写入的目标项目根目录。 | 可选（默认自动查找最近的 Flutter 项目） |
+| `-t, --tool <tool>` | 只接入单个工具：`codebuddy` \| `claude` \| `cursor` \| `copilot`。 | 可选（省略则接入所有已检测到的工具） |
+| `-h, --help` | 打印用法并退出。 | 可选 |
+
+支持 **cmd**、**PowerShell**、**bash**、**zsh** —— 路径含空格时加引号即可，
+如 `-p "D:\My Project\app"`。
+
+### 指定目标项目（非侵入式）
+
+在 kit 目录运行安装脚本，并通过 `--project` 传入目标项目根目录。Cursor / Copilot 的入口会**直接写入该项目**，而不会从 kit 目录向上查找——kit 目录本身不会被改动。
+
+```bash
+dart run install.dart -p /path/to/my_project
+# 或 / or
+python install.py -p /path/to/my_project
+```
+
+> 由于安装脚本本就在 kit 目录运行，`-p`（`--project` 的简写）是指定目标项目最简洁的方式。省略则回退到从 kit 目录向上查找最近的 Flutter 项目。
+
+### 只接入单个工具
+
+使用 `-t <tool>`（`--tool` 的简写）只接入某一个工具。合法取值：
+`codebuddy`、`claude`、`cursor`、`copilot`。不指定则接入所有已检测到的工具。
+
+```bash
+dart run install.dart -p /path/to/my_project -t cursor
+# 或 / or
+python install.py -p /path/to/my_project --tool copilot
+```
+
 ## 🛠 辅助脚本（Dart + Python）
 
 辅助脚本各提供两份：Dart 版在 [`scripts/dart/`](./scripts/dart)，Python 版在 [`scripts/python/`](./scripts/python)。按你已有的运行时选择其一即可，CLI 与行为完全一致。

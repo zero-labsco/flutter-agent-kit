@@ -18,6 +18,8 @@ NAME_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 
 
 def main(argv):
+    """Scaffold a feature-first folder under lib/features. 在 lib/features 下建骨架。
+    参数：<feature_name>（snake_case）。"""
     if len(argv) < 1:
         sys.stderr.write("Usage: python scripts/python/create_feature.py <feature_name>\n")
         return 1
@@ -34,20 +36,20 @@ def main(argv):
         os.makedirs(layer_dir, exist_ok=True)
         # Place a barrel per layer for convenient imports.
         # 每个分层放置一个 barrel 文件，方便统一导入。
-        with open(os.path.join(layer_dir, "{}_{}.dart".format(name, layer)),
+        with open(os.path.join(layer_dir, f"{name}_{layer}.dart"),
                   "w", encoding="utf-8") as f:
-            f.write("// {} {} layer.\n".format(name, layer))
+            f.write(f"// {name} {layer} layer.\n")
 
     # Feature-level barrel.
     # 功能级 barrel 文件，统一导出各分层。
-    with open(os.path.join(base, "{}.dart".format(name)), "w", encoding="utf-8") as f:
+    with open(os.path.join(base, f"{name}.dart"), "w", encoding="utf-8") as f:
         f.write(
-            "export '{name}/data/{name}_data.dart';\n"
-            "export '{name}/domain/{name}_domain.dart';\n"
-            "export '{name}/presentation/{name}_presentation.dart';\n".format(name=name)
+            f"export '{name}/data/{name}_data.dart';\n"
+            f"export '{name}/domain/{name}_domain.dart';\n"
+            f"export '{name}/presentation/{name}_presentation.dart';\n"
         )
 
-    print('Created feature "{}" at lib/features/{}'.format(name, name))
+    print(f'Created feature "{name}" at lib/features/{name}')
     return 0
 
 
