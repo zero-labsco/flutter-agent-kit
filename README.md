@@ -1,5 +1,7 @@
 # Flutter Agent Kit
 
+[中文](./README_zh.md)
+
 A tool-agnostic guidance kit for Flutter / Dart development. It ships one substantive
 guide (`AGENTS.md`) plus a CodeBuddy `SKILL.md` wrapper, reference docs, and Dart helper
 scripts. The same `AGENTS.md` is consumed directly by non-CodeBuddy tools, so the content
@@ -8,7 +10,7 @@ stays in a single source of truth.
 ## What's inside
 - `AGENTS.md` — core guidance (architecture, conventions, dependencies, plugin pattern, verify commands). **Single source of truth.**
 - `SKILL.md` — CodeBuddy-only auto-load wrapper (thin forwarder, no duplicate content).
-- `references/` — deeper docs (`flutter_style.md`, and more to come).
+- `references/` — deeper docs: `flutter_style.md`, `pubspec.md`, `architecture.md`, `platform_channel.md`.
 - `scripts/` — Dart helpers: `verify.dart`, `create_feature.dart`, `bump_version.dart`.
 - `install.dart` — detects your AI tool and places/soft-links the right entry file.
 
