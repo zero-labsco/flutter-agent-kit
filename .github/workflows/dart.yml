@@ -1,0 +1,28 @@
+name: Dart Analyze
+
+on:
+  push:
+    paths:
+      - '**/*.dart'
+  pull_request:
+    paths:
+      - '**/*.dart'
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Verify formatting
+        # Fail the build if any Dart file is not formatted.
+        # 若有 Dart 文件未格式化则让构建失败。
+        run: dart format --output=none --set-exit-if-changed .
+      - name: Analyze project source
+        # `dart analyze` covers install.dart and scripts/dart/*.
+        # dart analyze 会覆盖 install.dart 与 scripts/dart/*.dart。
+        run: dart analyze

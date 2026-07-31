@@ -12,7 +12,9 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    stderr.writeln('Usage: dart run scripts/bump_version.dart <major|minor|patch>');
+    stderr.writeln(
+      'Usage: dart run scripts/bump_version.dart <major|minor|patch>',
+    );
     exit(1);
   }
   final kind = args.first;
@@ -33,7 +35,9 @@ void main(List<String> args) {
     exit(1);
   }
 
-  final m = RegExp(r'version:\s*(\d+)\.(\d+)\.(\d+)(.*)').firstMatch(lines[idx]);
+  final m = RegExp(
+    r'version:\s*(\d+)\.(\d+)\.(\d+)(.*)',
+  ).firstMatch(lines[idx]);
   if (m == null) {
     stderr.writeln('Could not parse the version string: "${lines[idx]}".');
     exit(1);

@@ -15,8 +15,12 @@ import 'dart:io';
 /// Output is inherited to the terminal so the user sees analyze/test output.
 Future<int> run(String cmd, List<String> args) async {
   print('\n> $cmd ${args.join(' ')}');
-  final process = await Process.start(cmd, args,
-      runInShell: true, mode: ProcessStartMode.inheritStdio);
+  final process = await Process.start(
+    cmd,
+    args,
+    runInShell: true,
+    mode: ProcessStartMode.inheritStdio,
+  );
   return await process.exitCode;
 }
 

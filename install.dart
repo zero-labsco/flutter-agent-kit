@@ -19,9 +19,10 @@ import 'dart:io';
 /// Returns null if the tool is not detected on this machine.
 /// 若本机未检测到该工具则返回 null。
 String? toolSkillsDir(String tool) {
-  final home = Platform.environment['HOME'] ??
+  final home =
+      Platform.environment['HOME'] ??
       Platform.environment['USERPROFILE']; // Windows uses USERPROFILE
-      // Windows 使用 USERPROFILE 作为主目录
+  // Windows 使用 USERPROFILE 作为主目录
   if (home == null) return null;
 
   switch (tool) {
@@ -95,8 +96,10 @@ void main(List<String> args) {
   final kitPath = Directory.current.absolute.path;
   final agentsFile = File('$kitPath${Platform.pathSeparator}AGENTS.md');
   if (!agentsFile.existsSync()) {
-    stderr.writeln('AGENTS.md not found in $kitPath. Run install.dart from '
-        'the kit root.');
+    stderr.writeln(
+      'AGENTS.md not found in $kitPath. Run install.dart from '
+      'the kit root.',
+    );
     exit(1);
   }
 
@@ -117,15 +120,20 @@ void main(List<String> args) {
   final projectRoot = _findProjectRoot(kitPath);
   if (projectRoot != null) {
     placeProjectEntry(
-        '$projectRoot${Platform.pathSeparator}.cursorrules', agentsFile);
+      '$projectRoot${Platform.pathSeparator}.cursorrules',
+      agentsFile,
+    );
     placeProjectEntry(
-        '$projectRoot${Platform.pathSeparator}.github'
-        '${Platform.pathSeparator}copilot-instructions.md',
-        agentsFile);
+      '$projectRoot${Platform.pathSeparator}.github'
+      '${Platform.pathSeparator}copilot-instructions.md',
+      agentsFile,
+    );
   } else {
-    print('[info] No Flutter project found above this kit; skipped '
-        'Cursor/Copilot project entries. Run install.dart inside a project '
-        'to wire those tools.');
+    print(
+      '[info] No Flutter project found above this kit; skipped '
+      'Cursor/Copilot project entries. Run install.dart inside a project '
+      'to wire those tools.',
+    );
   }
 
   print('\nDone. Re-run anytime to update. See README.md for manual fallback.');

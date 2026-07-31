@@ -13,7 +13,9 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    stderr.writeln('Usage: dart run scripts/create_feature.dart <feature_name>');
+    stderr.writeln(
+      'Usage: dart run scripts/create_feature.dart <feature_name>',
+    );
     exit(1);
   }
   final name = args.first.trim();
@@ -23,16 +25,20 @@ void main(List<String> args) {
   }
 
   final base =
-      Directory.current.absolute.path + Platform.pathSeparator + 'lib'
-      '${Platform.pathSeparator}features${Platform.pathSeparator}$name';
+      Directory.current.absolute.path +
+      Platform.pathSeparator +
+      'lib'
+          '${Platform.pathSeparator}features${Platform.pathSeparator}$name';
 
   for (final layer in ['data', 'domain', 'presentation']) {
     final dir = Directory('$base${Platform.pathSeparator}$layer');
     dir.createSync(recursive: true);
     // Place a barrel per layer for convenient imports.
     // 每个分层放置一个 barrel 文件，方便统一导入。
-    File('$base${Platform.pathSeparator}$layer${Platform.pathSeparator}$name'
-        '_$layer.dart')
+    File(
+        '$base${Platform.pathSeparator}$layer${Platform.pathSeparator}$name'
+        '_$layer.dart',
+      )
       ..createSync()
       ..writeAsStringSync('// $name $layer layer.\n');
   }
@@ -42,9 +48,10 @@ void main(List<String> args) {
   File('$base${Platform.pathSeparator}$name.dart')
     ..createSync()
     ..writeAsStringSync(
-        'export \'$name/data/${name}_data.dart\';\n'
-        'export \'$name/domain/${name}_domain.dart\';\n'
-        'export \'$name/presentation/${name}_presentation.dart\';\n');
+      'export \'$name/data/${name}_data.dart\';\n'
+      'export \'$name/domain/${name}_domain.dart\';\n'
+      'export \'$name/presentation/${name}_presentation.dart\';\n',
+    );
 
   print('Created feature "$name" at lib/features/$name');
 }

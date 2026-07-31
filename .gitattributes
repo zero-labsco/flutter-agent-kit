@@ -1,0 +1,7 @@
+# Force LF line endings for source files so `dart format` / `pylint` behave
+# identically across Windows and CI (ubuntu) checkouts.
+# 强制源码使用 LF 行尾，确保 Windows 与 CI(ubuntu) 下格式器行为一致。
+*.dart text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
